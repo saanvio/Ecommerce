@@ -16,6 +16,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()),
 				HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(EcommerceException.class)
+	public ResponseEntity<ErrorResponse> ecommerceException(Exception e) {
+		return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage()),
+				HttpStatus.BAD_REQUEST);
+	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleAllException(Exception e) {

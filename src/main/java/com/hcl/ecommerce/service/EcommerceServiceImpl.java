@@ -8,10 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.hcl.ecommerce.dto.ApplicationResponse;
+import com.hcl.ecommerce.dto.CommonResponse;
 import com.hcl.ecommerce.dto.LoginRequestDto;
 import com.hcl.ecommerce.dto.UserDto;
 import com.hcl.ecommerce.entity.User;
@@ -31,7 +30,7 @@ public class EcommerceServiceImpl implements EcommerceService {
 	
 
 	@Override
-	public ApplicationResponse createUser(UserDto userDto) {
+	public CommonResponse createUser(UserDto userDto) {
 
 		LOGGER.info("Create user impl");
 		if (!emailvalidation(userDto.getEmail()))
@@ -42,23 +41,23 @@ public class EcommerceServiceImpl implements EcommerceService {
 			throw new EcommerceException(EcommerceConstants.ERROR_PASSWORD_MISMATCH);
 		Optional<User> employeeExist = userRepostory.findByEmail(userDto.getEmail());
 		if (employeeExist.isPresent())
-			throw new UserNotFoundException(EcommerceConstants.ERROR_EMPLOYEE_ALREADY_EXIST);
+			throw new UserNotFoundException(EcommerceConstants.ERROR_USER_ALREADY_EXIST);
 		User user=new User();
 		BeanUtils.copyProperties(userDto, user,"confirmPassword");
 
 		userRepostory.save(user);
-		return new ApplicationResponse(HttpStatus.CREATED.value(), EcommerceConstants.CREATED_MESSAGE,null,null);
+		return new CommonResponse(EcommerceConstants.CREATED_MESSAGE);
 	}
 
 
 	@Override
-	public ApplicationResponse loginUser(LoginRequestDto loginRequestDto) {
+	public CommonResponse loginUser(LoginRequestDto loginRequestDto) {
 		
 		Optional<User> user=userRepostory.findByUserNameAndPassword(loginRequestDto.getUserName(), loginRequestDto.getPassword());
 		if(!user.isPresent())
 			throw new EcommerceException(EcommerceConstants.ERROR_INVALID_CREDENTIALS);
 		
-		return new ApplicationResponse(HttpStatus.OK.value(), EcommerceConstants.LOGIN_MESSAGE,null,null);
+		return new CommonResponse(EcommerceConstants.LOGIN_MESSAGE);
 	}
 	
 

@@ -30,5 +30,8 @@ public class ApplicationResponse implements Serializable {
 	@JsonInclude(Include.NON_NULL)
 	private List<ProductDto> productLists;
 	
+	@JsonInclude(Include.NON_NULL)
+	private List<CategoryAnalyticsDto> categoriesAnalyticsLists;
+	
 
 }

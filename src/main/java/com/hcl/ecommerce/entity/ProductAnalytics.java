@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,20 +29,18 @@ public class ProductAnalytics implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long prodAnalyticsId;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "product_id")
-	private Product productId;
+	private Product product;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@ManyToOne
-	@JoinColumn(name="count")
-	private Product product;
+	private int count;
 
 }

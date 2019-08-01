@@ -1,9 +1,16 @@
 package com.hcl.ecommerce.service;
 
-import com.hcl.ecommerce.dto.ApplicationResponse;
+import java.util.List;
+
+import com.hcl.ecommerce.dto.CategoryAnalyticsDto;
+import com.hcl.ecommerce.dto.CategoryDto;
+import com.hcl.ecommerce.dto.ProductDto;
 
 public interface CategoryService {
-	ApplicationResponse getCategories();
-	ApplicationResponse getProductsByCatId(Long userId,Long categoryId);
-	ApplicationResponse getCategoryAnalytics();
+	List<CategoryDto> getCategories();
+	List<ProductDto> getProductsByCatId(Long userId,Long categoryId);
+	List<CategoryAnalyticsDto> getCategoryAnalytics();
+	CategoryAnalyticsDto getCategoryAnalyticsById(Long categoryId);
+	
+	
 }
