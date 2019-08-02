@@ -93,7 +93,7 @@ public class CategoryServiceImpl implements CategoryService {
 			count = categoryAnalytics.get().getCount();
 			categoryAnalytics.get().setCategory(category);
 			categoryAnalytics.get().setUser(user);
-			categoryAnalytics.get().setCount(count + 1);
+			categoryAnalytics.get().setCount(count +1);
 			categoryAnalyticsReposiitory.save(categoryAnalytics.get());
 		} else {
 			CategoryAnalytics categoryAnalyticsDb = new CategoryAnalytics();
