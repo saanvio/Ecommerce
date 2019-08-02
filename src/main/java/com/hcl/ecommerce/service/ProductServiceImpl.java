@@ -105,7 +105,7 @@ public class ProductServiceImpl implements ProductService {
 		for (Object o : productAnalyticsList) {
 			Object[] oo = (Object[]) o;
 			ProductAnalyticsDto productAnalyticsDto = ProductAnalyticsDto.builder().productId((Long) oo[0])
-					.count((Long) oo[0]).build();
+					.count((Long) oo[1]).build();
 			productAnalyticsDtoList.add(productAnalyticsDto);
 
 		}

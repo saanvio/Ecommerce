@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hcl.ecommerce.dto.CategoryDto;
 import com.hcl.ecommerce.dto.CommonResponse;
 import com.hcl.ecommerce.dto.LoginRequestDto;
 import com.hcl.ecommerce.dto.ProductAnalyticsDto;
@@ -36,10 +37,11 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<CommonResponse> loginUser(@RequestBody LoginRequestDto loginRequestDto) {
+	public ResponseEntity<List<CategoryDto>> loginUser(@RequestBody LoginRequestDto loginRequestDto) {
 		return new ResponseEntity<>(ecommerceService.loginUser(loginRequestDto), HttpStatus.OK);
 	}
-
+	
+	
 	@GetMapping("/{uid}/category/{catId}/product/{productId}")
 	public ResponseEntity<ProductDto> getProductsByCatId(@PathVariable Long uid, @PathVariable Long catId,
 			@PathVariable Long productId) {

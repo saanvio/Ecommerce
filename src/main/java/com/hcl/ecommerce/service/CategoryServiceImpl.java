@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hcl.ecommerce.dto.CategoryAnalyticsDto;
-import com.hcl.ecommerce.dto.CategoryDto;
 import com.hcl.ecommerce.dto.ProductDto;
 import com.hcl.ecommerce.entity.Category;
 import com.hcl.ecommerce.entity.CategoryAnalytics;
@@ -46,19 +45,15 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	ProductAnalyticsRepository productAnalyticsReposiitory;
 
-	@Override
-	public List<CategoryDto> getCategories() {
-
-		LOGGER.info("get categories service impl");
-		List<Category> categoriesList = categoryRepository.findAll();
-		List<CategoryDto> categoriesDtoList = new ArrayList<>();
-		categoriesList.stream().forEach(p -> {
-			CategoryDto categoryDto = new CategoryDto();
-			BeanUtils.copyProperties(p, categoryDto);
-			categoriesDtoList.add(categoryDto);
-		});
-		return categoriesDtoList;
-	}
+	/*
+	 * @Override public List<CategoryDto> getCategories() {
+	 * 
+	 * LOGGER.info("get categories service impl"); List<Category> categoriesList =
+	 * categoryRepository.findAll(); List<CategoryDto> categoriesDtoList = new
+	 * ArrayList<>(); categoriesList.stream().forEach(p -> { CategoryDto categoryDto
+	 * = new CategoryDto(); BeanUtils.copyProperties(p, categoryDto);
+	 * categoriesDtoList.add(categoryDto); }); return categoriesDtoList; }
+	 */
 
 	@Override
 	public List<ProductDto> getProductsByCatId(Long userId, Long categoryId) {

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hcl.ecommerce.dto.CategoryAnalyticsDto;
-import com.hcl.ecommerce.dto.CategoryDto;
 import com.hcl.ecommerce.dto.ProductDto;
 import com.hcl.ecommerce.service.CategoryService;
 
@@ -22,10 +21,10 @@ public class CategoryController {
 	@Autowired
 	CategoryService categoryService;
 
-	@GetMapping("/all")
-	public ResponseEntity<List<CategoryDto>> getCategories() {
-		return new ResponseEntity<>(categoryService.getCategories(), HttpStatus.OK);
-	}
+//	@GetMapping("/all")
+//	public ResponseEntity<List<CategoryDto>> getCategories() {
+//		return new ResponseEntity<>(categoryService.getCategories(), HttpStatus.OK);
+//	}
 
 	@GetMapping("/{catId}/user/{userId}")
 	public ResponseEntity<List<ProductDto>> getProductsByCatId(@PathVariable Long userId, @PathVariable Long catId) {

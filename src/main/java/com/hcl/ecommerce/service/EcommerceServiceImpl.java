@@ -1,5 +1,7 @@
 package com.hcl.ecommerce.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,12 +12,15 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hcl.ecommerce.dto.CategoryDto;
 import com.hcl.ecommerce.dto.CommonResponse;
 import com.hcl.ecommerce.dto.LoginRequestDto;
 import com.hcl.ecommerce.dto.UserDto;
+import com.hcl.ecommerce.entity.Category;
 import com.hcl.ecommerce.entity.User;
 import com.hcl.ecommerce.exception.EcommerceException;
 import com.hcl.ecommerce.exception.UserNotFoundException;
+import com.hcl.ecommerce.repository.CategoryRepository;
 import com.hcl.ecommerce.repository.UserRepository;
 import com.hcl.ecommerce.util.EcommerceConstants;
 
@@ -25,9 +30,9 @@ public class EcommerceServiceImpl implements EcommerceService {
 
 	@Autowired
 	UserRepository userRepostory;
-	
 
-	
+	@Autowired
+	CategoryRepository categoryRepository;
 
 	@Override
 	public CommonResponse createUser(UserDto userDto) {
@@ -42,24 +47,36 @@ public class EcommerceServiceImpl implements EcommerceService {
 		Optional<User> employeeExist = userRepostory.findByEmail(userDto.getEmail());
 		if (employeeExist.isPresent())
 			throw new UserNotFoundException(EcommerceConstants.ERROR_USER_ALREADY_EXIST);
-		User user=new User();
-		BeanUtils.copyProperties(userDto, user,"confirmPassword");
+		User user = new User();
+		BeanUtils.copyProperties(userDto, user, "confirmPassword");
 
 		userRepostory.save(user);
 		return new CommonResponse(EcommerceConstants.CREATED_MESSAGE);
 	}
 
-
 	@Override
-	public CommonResponse loginUser(LoginRequestDto loginRequestDto) {
-		
-		Optional<User> user=userRepostory.findByUserNameAndPassword(loginRequestDto.getUserName(), loginRequestDto.getPassword());
-		if(!user.isPresent())
+	public List<CategoryDto> loginUser(LoginRequestDto loginRequestDto) {
+
+		Optional<User> user = userRepostory.findByUserNameAndPassword(loginRequestDto.getUserName(),
+				loginRequestDto.getPassword());
+		if (!user.isPresent())
 			throw new EcommerceException(EcommerceConstants.ERROR_INVALID_CREDENTIALS);
-		
-		return new CommonResponse(EcommerceConstants.LOGIN_MESSAGE);
+
+		return getCategories();
 	}
-	
+
+	public List<CategoryDto> getCategories() {
+
+		LOGGER.info("get categories service impl");
+		List<Category> categoriesList = categoryRepository.findAll();
+		List<CategoryDto> categoriesDtoList = new ArrayList<>();
+		categoriesList.stream().forEach(p -> {
+			CategoryDto categoryDto = new CategoryDto();
+			BeanUtils.copyProperties(p, categoryDto);
+			categoriesDtoList.add(categoryDto);
+		});
+		return categoriesDtoList;
+	}
 
 	private boolean phoneNumberValidatoin(Long number) {
 
@@ -77,6 +94,5 @@ public class EcommerceServiceImpl implements EcommerceService {
 			return false;
 		return pat.matcher(email).matches();
 	}
-
 
 }
